@@ -11,6 +11,7 @@ nav_order: 1
 
 ## [MAJOR.MINOR.PATCH] - YYYY-MM-DD
 - Add organization application users support
+- Update example code in flink_application_version docs to be valid and not use deprecated schema members
 
 ## [4.12.1] - 2024-01-05
 
