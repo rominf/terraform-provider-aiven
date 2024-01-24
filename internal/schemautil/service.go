@@ -47,6 +47,7 @@ const (
 	ServiceTypeM3Aggregator     = "m3aggregator"
 	ServiceTypeFlink            = "flink"
 	ServiceTypeClickhouse       = "clickhouse"
+	ServiceTypeDragonfly        = "dragonfly"
 )
 
 var TechEmailsResourceSchema = &schema.Resource{
@@ -821,12 +822,10 @@ func copyConnectionInfoFromAPIResponseToTerraform(
 	props := make(map[string]interface{})
 
 	switch serviceType {
-	case "cassandra":
 	case "opensearch":
 		props["opensearch_dashboards_uri"] = connectionInfo.OpensearchDashboardsURI
 	case "elasticsearch":
 		props["kibana_uri"] = connectionInfo.KibanaURI
-	case "grafana":
 	case "influxdb":
 		props["database_name"] = connectionInfo.InfluxDBDatabaseName
 	case "kafka":
@@ -835,8 +834,6 @@ func copyConnectionInfoFromAPIResponseToTerraform(
 		props["connect_uri"] = connectionInfo.KafkaConnectURI
 		props["rest_uri"] = connectionInfo.KafkaRestURI
 		props["schema_registry_uri"] = connectionInfo.SchemaRegistryURI
-	case "kafka_connect":
-	case "mysql":
 	case "pg":
 		if connectionInfo.PostgresURIs != nil && len(connectionInfo.PostgresURIs) > 0 {
 			props["uri"] = connectionInfo.PostgresURIs[0]
@@ -855,15 +852,8 @@ func copyConnectionInfoFromAPIResponseToTerraform(
 		}
 		props["replica_uri"] = connectionInfo.PostgresReplicaURI
 		props["max_connections"] = metadata.(map[string]interface{})["max_connections"]
-	case "clickhouse":
-	case "redis":
 	case "flink":
 		props["host_ports"] = connectionInfo.FlinkHostPorts
-	case "kafka_mirrormaker":
-	case "m3db":
-	case "m3aggregator":
-	default:
-		panic(fmt.Sprintf("Unsupported service type %v", serviceType))
 	}
 
 	return d.Set(serviceType, []map[string]interface{}{props})

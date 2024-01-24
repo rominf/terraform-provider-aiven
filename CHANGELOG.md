@@ -11,6 +11,9 @@ nav_order: 1
 
 ## [MAJOR.MINOR.PATCH] - YYYY-MM-DD
 
+<!-- TODO: uncomment when dragonfly is supported -->
+<!-- - Dragonfly support -->
+
 - Fix `aiven_organization_group_memeber` fill model
 - Add `aiven_flink` service deletiong check
 
